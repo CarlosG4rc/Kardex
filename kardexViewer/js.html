@@ -1,0 +1,50 @@
+<script>
+    document.addEventListener('DOMContentLoaded',function(){
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems);
+        document.addEventListener('DOMContent',function(){
+            var elems = document.querySelectorAll('.sidenav');
+            var instances = M.Sidenv.init(elems);
+        });
+        google.script.run.withSuccessHandler(completarNombre).completar();
+    });
+
+    document.getElementById('enviar').addEventListener('click', getCant);
+    document.getElementById('reload').addEventListener('click',function(){
+        window.open("https://script.google.com/a/ifp.mx/macros/s/AKfycbygs-7_SE8DAv0aIHMU0TAiM8y5DxrbXZHpu6VNwA/exec",'_top');
+    });
+
+    function getCant(){
+        var profesor = {};
+        profesor.nombre = document.getElementById('profesor').value;
+        if(profesor.nombre.length > 12){
+            google.script.run.withSuccessHandler(tabla).getCKardex(profesor);
+        }
+    }
+    function tabla(stringKardex){
+        const arregloKardex = JSON.parse(stringKardex);
+        arregloKardex.forEach(function(kardex){
+            var table = document.getElementById("myTable");
+            var row = table.insertRow(1);
+            var desc = row.insertCell(0);
+            var aut = row.insertCell(1);
+            var type = row.insertCell(2);   
+            var date = row.insertCell(3);
+            var vin = row.insertCell(4);
+            var obs = row.insertCell(5);
+            desc.innerHTML = kardex[0];
+            aut.innerHTML = kardex[1];
+            type.innerHTML = kardex[2];
+            date.innerHTML = kardex[3];
+            vin.innerHTML = kardex[4];
+            obs.innerHTML = kardex[5];
+        });
+
+    }
+    function completarNombre(profesor){
+        var autoCompletar = document.getElementById('profesor');
+        var instances = M.Autocomplete.init(autoCompletar,{data : profesor});
+    }
+
+
+</script>

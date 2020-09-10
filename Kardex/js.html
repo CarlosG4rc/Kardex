@@ -1,0 +1,33 @@
+<script>
+    document.addEventListener('DOMContentLoaded',function(){
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems);
+
+        document.addEventListener('DOMContentLoaded',function(){
+            var elems = document.querySelectorAll('.sidenav');
+            var instances = M.Sidenav.init(elems);
+        });
+        google.script.run.withSuccessHandler(completarNombre).autocompletar();
+    });
+
+    //escuchadores
+    document.getElementById('enviar').addEventListener('click', enviar);
+
+    function completarNombre(profesor){
+        var autoCompletar = document.getElementById('profesor');
+        var instances = M.Autocomplete.init(autoCompletar, {data : profesor});
+    }
+
+    function enviar(){
+        var infKardex = {};
+        infKardex.nombre = document.getElementById('profesor').value;
+        infKardex.sesion = document.getElementById('sesion').value;
+        infKardex.fecha = document.getElementById('fecha').value;
+        infKardex.grupos = document.getElementById('grupos').value;
+        infKardex.tema = document.getElementById('tema').value;
+        infKardex.act = document.getElementById('act').value;
+        infKardex.obs = document.getElementById('obs').value;
+        google.script.run.enviarKardex(infKardex);
+        alert("La información acaba de ser enviada ")
+    }
+</script>
